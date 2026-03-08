@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Blue De Chance",
+    "description": "Fresh citrus and woody fragrance perfect for daily use.",
+    "price": "$120",
+    "image": "/blue.png"
+  },
+  {
+    "id": 2,
+    "title": "CK One",
+    "description": "Clean and soft scent suitable for everyday wear.",
+    "price": "$60",
+    "image": "/ckone.png"
+  },
+  {
+    "id": 3,
+    "title": "Dior Sauvage",
+    "description": "Bold masculine fragrance with spicy freshness.",
+    "price": "$150",
+    "image": "/dior.png"
+  },
+  {
+    "id": 4,
+    "title": "Rasasi Hawas",
+    "description": "Sweet aquatic scent with fruity freshness.",
+    "price": "$80",
+    "image": "/rh.png"
+  },
+  {
+    "id": 5,
+    "title": "Afnan 9PM",
+    "description": "Warm vanilla and sweet night fragrance.",
+    "price": "$70",
+    "image": "/pm.png"
+  },
+  {
+    "id": 6,
+    "title": "Creed Aventus",
+    "description": "Luxury fragrance with pineapple and smoky notes.",
+    "price": "$320",
+    "image": "/creed.png"
+  },
+  {
+    "id": 7,
+    "title": "Lattafa Najdia",
+    "description": "Fresh oriental fragrance with amber touch.",
+    "price": "$50",
+    "image": "/ln.png"
+  },
+  {
+    "id": 8,
+    "title": "Nishane Hacivat",
+    "description": "Luxury fragrance with pineapple and smoky notes.",
+    "price": "$59",
+    "image": "/hacivat.png"
+  }
+]
