@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Fetch products from public folder
 async function getProducts() {
   const res = await fetch("http://localhost:3000/data/products.json");
-  return res.json();
+  const data = await res.json();
+  return data;
 }
 
 const ProductsPage = async () => {
@@ -22,7 +22,7 @@ const ProductsPage = async () => {
         </p>
       </div>
 
-      {/* Search Bar */}
+      {/* Search */}
       <div className="flex justify-center mb-12">
         <input
           type="text"
@@ -31,12 +31,12 @@ const ProductsPage = async () => {
         />
       </div>
 
-      {/* Products Grid */}
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {/* Products */}
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
         {products.map((product) => (
           <div
             key={product.id}
-            className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 border"
+            className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300"
           >
             {/* Image */}
             <div className="relative w-full h-[260px] bg-gray-100">
@@ -44,7 +44,7 @@ const ProductsPage = async () => {
                 src={product.image}
                 alt={product.title}
                 fill
-                className="object-contain p-2 group-hover:scale-105 transition duration-300"
+                className="object-contain p-6 group-hover:scale-105 transition duration-300"
               />
             </div>
 
@@ -63,10 +63,11 @@ const ProductsPage = async () => {
                   {product.price}
                 </span>
 
-                <Link href={`/products/${product.id}`}>
-                  <button className="px-4 py-2 text-sm font-medium bg-black text-white rounded-full hover:bg-gray-800 transition">
-                    Details
-                  </button>
+                <Link
+                  href={`/products/${product.id}`}
+                  className="px-4 py-2 text-sm font-medium bg-black text-white rounded-full hover:bg-gray-800 transition"
+                >
+                  Details
                 </Link>
               </div>
             </div>
