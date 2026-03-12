@@ -18,28 +18,28 @@
     "title": "Dior Sauvage",
     "description": "Bold masculine fragrance with spicy freshness.",
     "price": "$150",
-    "image": "/dior.png"
+    "image": "/di.png"
   },
   {
     "id": 4,
     "title": "Rasasi Hawas",
     "description": "Sweet aquatic scent with fruity freshness.",
     "price": "$80",
-    "image": "/rh.png"
+    "image": "/hawas.png"
   },
   {
     "id": 5,
     "title": "Afnan 9PM",
     "description": "Warm vanilla and sweet night fragrance.",
     "price": "$70",
-    "image": "/pm.png"
+    "image": "/pm9.png"
   },
   {
     "id": 6,
     "title": "Creed Aventus",
     "description": "Luxury fragrance with pineapple and smoky notes.",
     "price": "$320",
-    "image": "/creed.png"
+    "image": "/cr.png"
   },
   {
     "id": 7,

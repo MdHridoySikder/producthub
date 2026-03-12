@@ -41,7 +41,7 @@ const HeroPage = () => {
     setCurrent(current === slides.length - 1 ? 0 : current + 1);
 
   return (
-    <section className="relative w-full h-[80vh] overflow-hidden flex items-center justify-center">
+    <section className="relative mt-19 w-full h-[80vh] overflow-hidden flex items-center justify-center">
       {/* Slide Image */}
       <Image
         src={slides[current].img}

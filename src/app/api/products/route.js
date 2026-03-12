@@ -1,44 +1,31 @@
-import { NextResponse } from "next/server";
-
-// Temporary in-memory store
-let products = [
-  {
-    id: 1,
-    title: "Blue De Chance",
-    description: "Fresh citrus...",
-    price: "$120",
-    image: "/blue.png",
-  },
-  {
-    id: 2,
-    title: "CK One",
-    description: "Clean and soft...",
-    price: "$60",
-    image: "/ckone.png",
-  },
-  {
-    id: 3,
-    title: "Dior Sauvage",
-    description: "Bold masculine...",
-    price: "$150",
-    image: "/dior.png",
-  },
-];
+import { dbConnect } from "@/app/lib/dbConect";
 
 export async function GET() {
-  return NextResponse.json(products);
+  try {
+    const productCollection = await dbConnect("products");
+    const products = await productCollection.find({}).toArray();
+    return Response.json(products, { status: 200 });
+  } catch (error) {
+    return Response.json(
+      { message: "Error fetching products", error },
+      { status: 500 },
+    );
+  }
 }
 
-export async function POST(req) {
-  const newProduct = await req.json();
-  newProduct.id = Date.now(); // simple unique id
-  products.push(newProduct);
-  return NextResponse.json(newProduct);
-}
-
-export async function DELETE(req) {
-  const { searchParams } = new URL(req.url);
-  const id = parseInt(searchParams.get("id"));
-  products = products.filter((p) => p.id !== id);
-  return NextResponse.json({ success: true });
+export async function POST(request) {
+  try {
+    const data = await request.json();
+    const productCollection = await dbConnect("products");
+    const result = await productCollection.insertOne(data);
+    return Response.json(
+      { message: "Product added successfully", result },
+      { status: 201 },
+    );
+  } catch (error) {
+    return Response.json(
+      { message: "Error adding product", error },
+      { status: 500 },
+    );
+  }
 }
