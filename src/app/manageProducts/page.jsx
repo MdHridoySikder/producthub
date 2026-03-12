@@ -66,86 +66,74 @@ const ManageProductsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-24 px-6 pt-32">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500">
-            Manage Products
-          </h1>
-          <p className="text-gray-500 mt-4 text-lg">
-            Inventory Overview & Management
+    <div className="max-w-7xl mx-auto px-6 py-20">
+      {/* Title */}
+      <div className="text-center mb-14">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500">
+          Manage Products
+        </h1>
+        <p className="text-gray-500 mt-3 text-lg">
+          Inventory Overview & Management
+        </p>
+      </div>
+
+      {products.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
+          <p className="text-xl text-gray-400">
+            No products found in the inventory.
           </p>
         </div>
-
-        {products.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
-            <p className="text-xl text-gray-400">
-              No products found in the inventory.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {products.map((product) => (
-              <div
-                key={product._id}
-                className="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
-              >
-                {/* Image Section */}
-                <div className="relative h-64 w-full bg-gray-50 p-6">
-                  {product.imageUrl ? (
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.title}
-                      fill
-                      className="object-contain group-hover:scale-110 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300 italic">
-                      No Image
-                    </div>
-                  )}
-                </div>
-
-                {/* Content Section */}
-                <div className="p-6 flex-grow flex flex-col">
-                  <div className="flex justify-between items-start mb-2">
-                    <h2 className="text-xl font-bold text-gray-800 line-clamp-1">
-                      {product.title}
-                    </h2>
-                    <span className="bg-teal-50 text-teal-600 px-3 py-1 rounded-full text-sm font-bold">
-                      ${product.price}
-                    </span>
+      ) : (
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              className="group relative bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300"
+            >
+              {/* Image */}
+              <div className="relative w-full h-[260px] bg-gray-100">
+                {product.imageUrl ? (
+                  <Image
+                    src={product.imageUrl || "/blue.png"}
+                    alt={product.title}
+                    fill
+                    className="object-contain p-6 group-hover:scale-105 transition duration-300"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full text-gray-400">
+                    No Image
                   </div>
-                  <p className="text-gray-500 text-sm line-clamp-3 mb-6 flex-grow">
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="p-6 flex flex-col justify-between h-[220px]">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {product.title}
+                  </h2>
+                  <p className="text-gray-500 text-sm line-clamp-2 mt-2">
                     {product.shortDesc || product.fullDesc}
                   </p>
+                </div>
+
+                <div className="flex items-center justify-between mt-5">
+                  <span className="text-lg font-bold text-black">
+                    ${product.price}
+                  </span>
 
                   <button
                     onClick={() => handleDelete(product._id)}
-                    className="w-full bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-semibold py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                    className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-full hover:bg-red-600 shadow-md hover:shadow-lg transition"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 group-hover/btn:rotate-12 transition-transform"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                    Delete Product
+                    Delete
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
