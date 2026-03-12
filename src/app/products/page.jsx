@@ -1,18 +1,21 @@
-"use client"; // needed for client-side interactivity
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 async function getProducts() {
-  const res = await fetch("/api/products");
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data;
+  try {
+    const res = await fetch("/data/products.json");
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
 }
 
 const ProductsPage = () => {
-  const { status } = useSession();
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -76,58 +79,49 @@ const ProductsPage = () => {
 
       {/* Products */}
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        {filtered.length > 0 ? (
-          filtered.map((product) => (
-            <div
-              key={product._id}
-              className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col"
-            >
-              {/* Image */}
-              <div className="relative w-full h-[300px] bg-gray-50/50 p-8">
-                <Image
-                  src={product.imageUrl || product.image || "/blue.png"}
-                  alt={product.title}
-                  fill
-                  className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute top-6 right-6">
-                  <span className="bg-white/90 backdrop-blur-md text-teal-600 font-black px-4 py-2 rounded-2xl shadow-sm text-sm border border-teal-50">
-                    ${product.price}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-8 flex flex-col flex-grow">
-                <div className="mb-6 flex-grow">
-                  <h2 className="text-2xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors">
-                    {product.title}
-                  </h2>
-                  <p className="text-gray-500 text-sm font-medium line-clamp-2 mt-3 leading-relaxed">
-                    {product.shortDesc || product.description}
-                  </p>
-                </div>
-
-                <Link
-                  href={`/products/${product._id}`}
-                  className="w-full py-4 text-center font-black bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-2xl hover:from-teal-600 hover:to-cyan-700 shadow-xl shadow-teal-500/20 hover:shadow-teal-500/40 transition-all transform active:scale-95 group/btn flex items-center justify-center gap-2"
-                >
-                  View Details
-                  <span className="group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </Link>
+        {filtered.map((product) => (
+          <div
+            key={product.id} // ensure your JSON has unique "id" field
+            className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col"
+          >
+            {/* Image */}
+            <div className="relative w-full h-[300px] bg-gray-50/50 p-8">
+              <Image
+                src={product.image || "/blue.png"} // fallback /blue.png
+                alt={product.title}
+                fill
+                className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute top-6 right-6">
+                <span className="bg-white/90 backdrop-blur-md text-teal-600 font-black px-4 py-2 rounded-2xl shadow-sm text-sm border border-teal-50">
+                  ${product.price}
+                </span>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="col-span-full py-20 text-center">
-            <div className="text-5xl mb-4">🌬️</div>
-            <p className="text-xl font-bold text-gray-400">
-              Mmm... No scents match your search.
-            </p>
+
+            {/* Content */}
+            <div className="p-8 flex flex-col flex-grow">
+              <div className="mb-6 flex-grow">
+                <h2 className="text-2xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors">
+                  {product.title}
+                </h2>
+                <p className="text-gray-500 text-sm font-medium line-clamp-2 mt-3 leading-relaxed">
+                  {product.shortDesc || product.description}
+                </p>
+              </div>
+
+              <Link
+                href={`/products/${product.id}`}
+                className="w-full py-4 text-center font-black bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-2xl hover:from-teal-600 hover:to-cyan-700 shadow-xl shadow-teal-500/20 hover:shadow-teal-500/40 transition-all transform active:scale-95 flex items-center justify-center gap-2"
+              >
+                View Details
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
           </div>
-        )}
+        ))}
       </div>
     </section>
   );

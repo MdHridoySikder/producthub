@@ -11,14 +11,12 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (params.slug) {
-      fetch(`/api/products/${params.slug}`)
+      // JSON থেকে fetch করা
+      fetch("/data/products.json")
         .then((res) => res.json())
         .then((data) => {
-          if (data._id) {
-            setProduct(data);
-          } else {
-            setProduct(null);
-          }
+          const found = data.find((p) => p.id.toString() === params.slug); // slug = id
+          setProduct(found || null);
         })
         .catch(() => setProduct(null));
     }
@@ -62,7 +60,7 @@ export default function ProductDetails() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto py-24 px-6 relative ">
+    <div className="max-w-6xl mx-auto py-24 px-6 relative">
       {/* Go Back Button */}
       <div className="mb-8">
         <Link
@@ -77,7 +75,7 @@ export default function ProductDetails() {
         {/* Product Image */}
         <div className="relative w-full h-[450px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-md hover:shadow-3xl transition-transform duration-500 transform hover:scale-105">
           <Image
-            src={product.imageUrl || product.image || "/blue.png"}
+            src={product.image || "/blue.png"}
             alt={product.title}
             fill
             className="object-contain p-6"
@@ -94,7 +92,7 @@ export default function ProductDetails() {
 
             <div className="flex items-center gap-4 mt-6">
               <p className="text-3xl font-bold text-gray-900">
-                {product.price}
+                ${product.price}
               </p>
               <span
                 className={`px-5 py-1 rounded-full text-sm font-semibold tracking-wide ${

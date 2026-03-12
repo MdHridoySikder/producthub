@@ -1,20 +1,49 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  // Nav items list
+  const navItems = ["Home", "Features", "Testimonials", "Contact", "Blogs"];
+
+  // Handle loading state on navigation
+  useEffect(() => {
+    setIsNavigating(true);
+    const timeout = setTimeout(() => setIsNavigating(false), 500);
+    return () => clearTimeout(timeout);
+  }, [pathname, searchParams]);
+
+  const closeDropdown = () => {
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
+  };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/60 border-b border-gray-200 shadow-md transition-all duration-300">
+    <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/60 border-b border-gray-200 shadow-sm transition-all duration-300">
+      {isNavigating && (
+        <div className="absolute top-0 left-0 w-full h-[3px] overflow-hidden bg-transparent">
+          <div className="h-full bg-teal-500 animate-loading-bar shadow-[0_0_10px_#14b8a6]"></div>
+        </div>
+      )}
+
       <div className="navbar px-6 py-3 max-w-7xl mx-auto flex items-center justify-between">
-        {/* LEFT: Logo & Mobile Toggle */}
+        {/* Logo & Mobile Toggle */}
         <div className="navbar-start flex items-center gap-4">
+          {/* Mobile Dropdown */}
           <div className="dropdown lg:hidden">
             <div
               tabIndex={0}
+              role="button"
               className="btn btn-ghost p-2 hover:bg-gray-100 rounded-full transition"
             >
               <svg
@@ -34,60 +63,62 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-white/90 backdrop-blur-md rounded-xl mt-3 w-52 p-3 shadow-xl flex flex-col gap-2 animate-fade-in border border-gray-100"
+              className="menu menu-sm dropdown-content bg-white rounded-xl mt-3 w-52 p-3 shadow-xl flex flex-col gap-2 border border-gray-100 z-[100]"
             >
-              <Link
-                href={"/"}
-                className="hover:text-teal-500 transition-colors"
-              >
-                Home
-              </Link>
+              {navItems.map((item) => (
+                <li key={item}>
+                  <Link
+                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    onClick={closeDropdown}
+                    className={`hover:text-teal-500 transition-colors block py-2 ${
+                      pathname ===
+                      (item === "Home" ? "/" : `/${item.toLowerCase()}`)
+                        ? "text-teal-500 font-bold"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
               <div className="flex flex-col gap-1 ml-2 border-l-2 border-teal-100 pl-3 my-2">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                   Products
                 </span>
-                <Link
-                  href={"/products"}
-                  className="text-sm hover:text-teal-500 transition-colors"
-                >
-                  All Products
-                </Link>
-                <Link
-                  href={"/addProduct"}
-                  className="text-sm hover:text-teal-500 transition-colors"
-                >
-                  Add Product
-                </Link>
-                <Link
-                  href={"/manageProducts"}
-                  className="text-sm hover:text-teal-500 transition-colors"
-                >
-                  Manage Products
-                </Link>
+                <li>
+                  <Link
+                    href="/products"
+                    onClick={closeDropdown}
+                    className="text-sm hover:text-teal-500 py-2"
+                  >
+                    All Products
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/addProduct"
+                    onClick={closeDropdown}
+                    className="text-sm hover:text-teal-500 py-2"
+                  >
+                    Add Product
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/manageProducts"
+                    onClick={closeDropdown}
+                    className="text-sm hover:text-teal-500 py-2"
+                  >
+                    Manage Perfumes
+                  </Link>
+                </li>
               </div>
-              <Link
-                href={"/features"}
-                className="hover:text-teal-500 transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                href={"/testimonials"}
-                className="hover:text-teal-500 transition-colors"
-              >
-                Testimonials
-              </Link>
-              <Link
-                href={"/contact"}
-                className="hover:text-teal-500 transition-colors"
-              >
-                Contact
-              </Link>
             </ul>
           </div>
 
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-11 h-11">
+            <div className="relative w-10 h-10">
               <Image
                 src="/cr.png"
                 alt="PerfumeHub Logo"
@@ -103,21 +134,37 @@ const Navbar = () => {
 
         {/* CENTER: Desktop Nav */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-base font-semibold gap-8">
-            {["Home", "Features", "Testimonials", "Contact"].map((item) => (
-              <Link
-                key={item}
-                href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                className="relative group px-1 py-1 transition-colors hover:text-teal-600"
-              >
-                {item}
-                <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 transition-all group-hover:w-full rounded-full"></span>
-              </Link>
+          <ul className="menu menu-horizontal px-1 text-base font-semibold gap-6 items-center">
+            {navItems.map((item) => (
+              <li key={item}>
+                <Link
+                  href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  className={`relative group px-1 py-1 transition-colors hover:text-teal-600 ${
+                    pathname ===
+                    (item === "Home" ? "/" : `/${item.toLowerCase()}`)
+                      ? "text-teal-500"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {item}
+                  <span
+                    className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 transition-all rounded-full ${
+                      pathname ===
+                      (item === "Home" ? "/" : `/${item.toLowerCase()}`)
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
+                  ></span>
+                </Link>
+              </li>
             ))}
-            <div className="dropdown dropdown-hover">
+
+            {/* Products Dropdown - Click to Open Only */}
+            <li className="dropdown">
               <div
                 tabIndex={0}
-                className="relative group px-1 py-1 transition-colors hover:text-teal-600 cursor-pointer flex items-center gap-1"
+                role="button"
+                className="relative group px-1 py-1 transition-colors hover:text-teal-600 cursor-pointer flex items-center gap-1 text-gray-700"
               >
                 Products
                 <svg
@@ -134,59 +181,53 @@ const Navbar = () => {
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
-                <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 transition-all group-hover:w-full rounded-full"></span>
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[2] menu p-2 shadow-2xl bg-white/95 backdrop-blur-md rounded-2xl w-56 border border-gray-100 animate-fade-in mt-2 flex flex-col gap-1"
+                className="dropdown-content z-[100] menu p-2 shadow-2xl bg-white rounded-2xl w-56 border border-gray-100 mt-2 flex flex-col gap-1"
               >
                 <li className="menu-title px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-1">
-                  Stock Portfolio
+                  Management
                 </li>
                 <li>
                   <Link
                     href="/products"
-                    className="hover:bg-teal-50 rounded-xl p-3 flex items-center gap-3 group/item transition-all"
+                    onClick={closeDropdown}
+                    className="hover:bg-teal-50 rounded-xl p-3"
                   >
-                    <span className="opacity-0 group-hover/item:opacity-100 transition-opacity">
-                      ✨
-                    </span>{" "}
                     All Products
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/addProduct"
-                    className="hover:bg-teal-50 rounded-xl p-3 flex items-center gap-3 group/item transition-all"
+                    onClick={closeDropdown}
+                    className="hover:bg-teal-50 rounded-xl p-3"
                   >
-                    <span className="opacity-0 group-hover/item:opacity-100 transition-opacity">
-                      ➕
-                    </span>{" "}
                     Add Product
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/manageProducts"
-                    className="hover:bg-teal-50 rounded-xl p-3 flex items-center gap-3 group/item transition-all"
+                    onClick={closeDropdown}
+                    className="hover:bg-teal-50 rounded-xl p-3"
                   >
-                    <span className="opacity-0 group-hover/item:opacity-100 transition-opacity">
-                      🛠️
-                    </span>{" "}
-                    Manage Inventory
+                    Manage Perfumes
                   </Link>
                 </li>
               </ul>
-            </div>
+            </li>
           </ul>
         </div>
 
         {/* RIGHT: Profile/Auth */}
-        <div className="navbar-end flex gap-4">
+        <div className="navbar-end flex gap-3 items-center">
           {status === "authenticated" ? (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
+                role="button"
                 className="btn btn-ghost rounded-2xl px-2 py-1 flex items-center gap-3 hover:bg-teal-50 transition-all border border-gray-100/50 shadow-sm"
               >
                 <div className="hidden md:flex flex-col items-end leading-none">
@@ -197,7 +238,7 @@ const Navbar = () => {
                     Premium
                   </span>
                 </div>
-                <div className="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-teal-400 shadow-md transform transition-transform hover:scale-105 active:scale-95">
+                <div className="relative w-9 h-9 rounded-xl overflow-hidden border-2 border-teal-400 shadow-md transform transition-transform hover:scale-105 active:scale-95">
                   <Image
                     src={session.user.image || "/blue.png"}
                     alt={session.user.name}
@@ -208,7 +249,7 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content bg-white/95 backdrop-blur-xl rounded-2xl w-64 p-3 mt-4 shadow-2xl flex flex-col gap-1 animate-fade-in border border-gray-100 z-50 overflow-hidden"
+                className="menu dropdown-content bg-white rounded-2xl w-64 p-3 mt-4 shadow-2xl flex flex-col gap-1 border border-gray-100 z-[100]"
               >
                 <div className="px-4 py-3 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl mb-2 flex items-center gap-3">
                   <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
@@ -231,47 +272,61 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="/profile"
-                    className="flex items-center gap-3 p-3 hover:bg-teal-50 rounded-xl transition-all group"
+                    onClick={closeDropdown}
+                    className="p-3 hover:bg-teal-50 rounded-xl font-bold text-gray-700"
                   >
-                    <span className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center text-teal-600 group-hover:scale-110 transition-transform">
-                      👤
-                    </span>
-                    <span className="font-bold text-gray-700">
-                      Account Profile
-                    </span>
+                    Account Profile
                   </Link>
                 </li>
                 <li>
                   <button
-                    onClick={() => signOut()}
-                    className="flex items-center gap-3 p-3 hover:bg-red-50 text-red-500 rounded-xl transition-all group w-full text-left"
+                    onClick={() => {
+                      signOut();
+                      closeDropdown();
+                    }}
+                    className="p-3 hover:bg-red-50 text-red-500 rounded-xl font-bold w-full text-left"
                   >
-                    <span className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      🚪
-                    </span>
-                    <span className="font-bold">Logout Session</span>
+                    Logout
                   </button>
                 </li>
               </ul>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="btn btn-ghost rounded-xl px-6 font-bold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all"
+                className="btn btn-ghost rounded-xl px-4 font-bold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all hidden sm:flex"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
-                className="btn bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white rounded-xl px-7 shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-all border-none font-bold"
+                className="btn bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white border-none rounded-xl px-4 sm:px-6 shadow-lg shadow-teal-500/20 font-bold"
               >
-                Get Started
+                Join
               </Link>
             </div>
           )}
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes loading-bar {
+          0% {
+            transform: translateX(-100%);
+          }
+          50% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+        .animate-loading-bar {
+          animation: loading-bar 1s infinite linear;
+          width: 50%;
+        }
+      `}</style>
     </div>
   );
 };
