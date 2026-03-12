@@ -10,12 +10,18 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch("/data/products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const found = data.find((item) => item.id === Number(params.slug));
-        setProduct(found || null);
-      });
+    if (params.slug) {
+      fetch(`/api/products/${params.slug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data._id) {
+            setProduct(data);
+          } else {
+            setProduct(null);
+          }
+        })
+        .catch(() => setProduct(null));
+    }
   }, [params.slug]);
 
   if (!product)
@@ -71,7 +77,7 @@ export default function ProductDetails() {
         {/* Product Image */}
         <div className="relative w-full h-[450px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 backdrop-blur-md hover:shadow-3xl transition-transform duration-500 transform hover:scale-105">
           <Image
-            src={product.image}
+            src={product.imageUrl || product.image || "/blue.png"}
             alt={product.title}
             fill
             className="object-contain p-6"

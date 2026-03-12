@@ -1,6 +1,12 @@
 import { dbConnect } from "@/app/lib/dbConect";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
   try {
     const productCollection = await dbConnect("products");
     const products = await productCollection.find({}).toArray();
@@ -14,6 +20,10 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
   try {
     const data = await request.json();
     const productCollection = await dbConnect("products");

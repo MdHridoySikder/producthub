@@ -4,8 +4,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const HeroPage = () => {
+  const { status } = useSession();
   // Slides: image + title + description
   const slides = [
     {
@@ -64,22 +66,20 @@ const HeroPage = () => {
         <div className="flex flex-col md:flex-row gap-4">
           <Link
             href="/products"
-            className="btn btn-primary rounded-full px-6 py-2 text-lg shadow-lg hover:scale-105 transition"
+            className="btn bg-gradient-to-r from-teal-500 to-cyan-600 text-white border-none rounded-full px-10 py-4 text-lg font-black shadow-2xl hover:scale-105 active:scale-95 transition-all shadow-teal-500/30"
           >
-            Explore Products
+            Explore Collection
           </Link>
-          <Link
-            href="/login"
-            className="btn btn-outline btn-white rounded-full px-6 py-2 text-lg shadow hover:scale-105 transition"
-          >
-            Login
-          </Link>
-          <Link
-            href="/register"
-            className="btn btn-outline btn-white rounded-full px-6 py-2 text-lg shadow hover:scale-105 transition"
-          >
-            Register
-          </Link>
+          {status === "unauthenticated" && (
+            <>
+              <Link
+                href="/login"
+                className="btn btn-outline border-white text-white hover:bg-white hover:text-teal-600 rounded-full px-10 py-4 text-lg font-black shadow-lg hover:scale-105 active:scale-95 transition-all"
+              >
+                Sign In
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
