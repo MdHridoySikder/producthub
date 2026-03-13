@@ -1,32 +1,26 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-// Separated component to handle useSearchParams safely within Suspense
-const NavigationLoader = ({ setIsNavigating }) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    setIsNavigating(true);
-    const timeout = setTimeout(() => setIsNavigating(false), 500);
-    return () => clearTimeout(timeout);
-  }, [pathname, searchParams, setIsNavigating]);
-
-  return null;
-};
-
 const Navbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isNavigating, setIsNavigating] = useState(false);
 
   // Nav items list
   const navItems = ["Home", "Features", "Testimonials", "Contact", "Blogs"];
+
+  // Handle loading state on navigation
+  useEffect(() => {
+    setIsNavigating(true);
+    const timeout = setTimeout(() => setIsNavigating(false), 500);
+    return () => clearTimeout(timeout);
+  }, [pathname, searchParams]);
 
   const closeDropdown = () => {
     if (document.activeElement) {
@@ -36,11 +30,6 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/60 border-b border-gray-200 shadow-sm transition-all duration-300">
-      {/* SearchParams hook usage wrapped in Suspense */}
-      <Suspense fallback={null}>
-        <NavigationLoader setIsNavigating={setIsNavigating} />
-      </Suspense>
-
       {isNavigating && (
         <div className="absolute top-0 left-0 w-full h-[3px] overflow-hidden bg-transparent">
           <div className="h-full bg-teal-500 animate-loading-bar shadow-[0_0_10px_#14b8a6]"></div>
