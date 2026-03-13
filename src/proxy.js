@@ -2,7 +2,7 @@ import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
   function proxy(req) {
-    // Custom proxy logic can go here if needed
+    // Edge-level proxy logic
   },
   {
     pages: {
@@ -17,9 +17,6 @@ export const config = {
     "/manageProducts/:path*",
     "/addProduct/:path*",
     "/profile/:path*",
-    "/products",
-    "/manageProducts",
-    "/addProduct",
-    "/profile",
+    "/api/products/:path*", // Protect API routes at the edge too
   ],
 };

@@ -21,7 +21,7 @@ const HeroPage = () => {
       desc: "Clean and modern scent perfect for everyday wear.",
     },
     {
-      img: "/dior.png",
+      img: "/di.png",
       title: "Dior Sauvage",
       desc: "Bold masculine fragrance with spicy and fresh notes",
     },

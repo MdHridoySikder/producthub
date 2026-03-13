@@ -15,18 +15,26 @@ async function getProducts() {
   }
 }
 
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 const ProductsPage = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
 
   // Fetch products
   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
     getProducts().then((data) => {
       setProducts(data);
       setFiltered(data);
     });
-  }, []);
+  }, [status, router]);
 
   // Filter products based on search
   useEffect(() => {
@@ -35,6 +43,16 @@ const ProductsPage = () => {
     );
     setFiltered(filteredProducts);
   }, [search, products]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-teal-500"></span>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") return null;
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-20 min-h-screen">

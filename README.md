@@ -75,20 +75,6 @@ cd producthub
 npm install
 ```
 
-### 3. Environment Configuration
-
-Create a `.env` file in the root directory and add the following keys:
-
-```env
-# MongoDB Connection
-NEXT_MONGO_URI=your_mongodb_connection_string
-NEXT_MONGO_NAME=your_db_name
-
-# NextAuth Configuration
-NEXTAUTH_SECRET=your_random_secret_key
-NEXTAUTH_URL=http://localhost:3000
-```
-
 ### 4. Run Development Server
 
 ```bash
@@ -96,20 +82,6 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
-
----
-
-## ☁️ Deployment (Vercel)
-
-To deploy this project to Vercel, ensure you configure the following **Environment Variables** in the Vercel Dashboard:
-
-1. `NEXT_MONGO_URI`: Your production MongoDB URI.
-2. `NEXTAUTH_SECRET`: A long, random string (can be generated via `openssl rand -base64 32`).
-3. `NEXTAUTH_URL`: Your production URL (e.g., `https://producthub-blue.vercel.app`).
-4. `NEXT_MONGO_NAME`: Your production database name.
-
-> [!IMPORTANT]
-> This project uses the **Next.js 16 Proxy Convention**. Ensure your routing logic is defined in `src/proxy.js` for optimal edge performance on Vercel.
 
 ---
 
