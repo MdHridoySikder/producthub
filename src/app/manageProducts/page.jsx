@@ -4,15 +4,22 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ManageProductsPage = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch products
   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
     fetchProducts();
-  }, []);
+  }, [status, router]);
 
   const fetchProducts = async () => {
     try {
@@ -57,13 +64,15 @@ const ManageProductsPage = () => {
     }
   };
 
-  if (loading) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <span className="loading loading-spinner loading-lg text-teal-500"></span>
       </div>
     );
   }
+
+  if (status === "unauthenticated") return null;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-20">
