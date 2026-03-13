@@ -6,7 +6,7 @@ const reviewsData = [
     title: "Perfume - Ocean Breeze",
     shortDesc: "Fresh and long-lasting fragrance",
     fullDesc:
-      "Ocean Breeze Perfume with 100ml spray bottle. Ideal for daily wear and special occasions. Long-lasting scent up to 12 hours.",
+      "Ocean Breeze Perfume with 100ml spray bottle. Ideal for daily wear and special occasions.",
     price: 45,
     imageUrl:
       "https://via.placeholder.com/200x200.png?text=Perfume+Ocean+Breeze",
