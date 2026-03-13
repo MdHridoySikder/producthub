@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🧴 ProductHub - Premium Perfume Collection
 
-## Getting Started
+[![Live Demo](https://img.shields.io/badge/Live-Demo-teal.svg?style=for-the-badge)](https://producthub-blue.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7.1-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 
-First, run the development server:
+**ProductHub** is a sophisticated, full-stack e-commerce platform designed for fragrance enthusiasts. It offers a seamless experience for discovering, searching, and managing a premium collection of perfumes, complete with secure authentication and a modern, responsive user interface.
+
+---
+
+## 🚀 Live Demo
+
+Experience the application live at: **[producthub-blue.vercel.app](https://producthub-blue.vercel.app)**
+
+---
+
+## ✨ Features
+
+- 🛡️ **Secure Authentication**: Full login and registration system powered by **NextAuth.js**.
+- 🔒 **Private Route Protection**: Robust edge routing (Next.js Proxy) ensuring secure access to dashboards and management pages.
+- 🧴 **Premium Catalog**: Elegant display of fragrances with real-time search and detailed views.
+- 🎨 **Modern UI/UX**: Crafted with **Tailwind CSS 4** and **DaisyUI** for a premium, glassmorphic aesthetic.
+- 📊 **Product Management**: Intuitive interface for adding and managing product listings.
+- 📱 **Fully Responsive**: Optimized for a flawless experience across all devices (mobile, tablet, desktop).
+- 💬 **Interactive Elements**: Dynamic testimonials, blogs, and contact sections with smooth animations.
+- 🔔 **Toast Notifications**: Real-time feedback using `react-hot-toast` and `sweetalert2`.
+
+---
+
+## 🛠️ Technologies Used
+
+### Core
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Proxy Convention)
+- **Language**: JavaScript (ES6+)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) & [DaisyUI](https://daisyui.com/)
+
+### Backend & Auth
+
+- **Authentication**: [NextAuth.js](https://next-auth.js.org/) (Credentials Provider)
+- **Database**: [MongoDB](https://www.mongodb.com/) (Native Driver)
+- **Security**: `bcryptjs` for password hashing
+
+### Libraries
+
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast, SweetAlert2, React Toastify
+- **Fonts**: Geist (Sans & Mono)
+
+---
+
+## 📸 Screenshots
+
+|                                       Landing Page                                        |                                     Product Catalog                                     |
+| :---------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
+| ![Landing Page Placeholder](https://via.placeholder.com/800x450?text=Landing+Page+Mockup) | ![Catalog Placeholder](https://via.placeholder.com/800x450?text=Product+Catalog+Mockup) |
+
+---
+
+## ⚙️ Installation & Setup
+
+Follow these steps to run the project locally:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/MdHridoySikder/producthub.git
+cd producthub
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+
+Create a `.env` file in the root directory and add the following keys:
+
+```env
+# MongoDB Connection
+NEXT_MONGO_URI=your_mongodb_connection_string
+NEXT_MONGO_NAME=your_db_name
+
+# NextAuth Configuration
+NEXTAUTH_SECRET=your_random_secret_key
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ☁️ Deployment (Vercel)
 
-## Learn More
+To deploy this project to Vercel, ensure you configure the following **Environment Variables** in the Vercel Dashboard:
 
-To learn more about Next.js, take a look at the following resources:
+1. `NEXT_MONGO_URI`: Your production MongoDB URI.
+2. `NEXTAUTH_SECRET`: A long, random string (can be generated via `openssl rand -base64 32`).
+3. `NEXTAUTH_URL`: Your production URL (e.g., `https://producthub-blue.vercel.app`).
+4. `NEXT_MONGO_NAME`: Your production database name.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> [!IMPORTANT]
+> This project uses the **Next.js 16 Proxy Convention**. Ensure your routing logic is defined in `src/proxy.js` for optimal edge performance on Vercel.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👤 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Md Hridoy Sikder**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- GitHub: [@MdHridoySikder](https://github.com/MdHridoySikder)
+- Portfolio: [hridoysikder.com](https://hridoysikder.com) (Placeholder)
+
+---
+
+## 📄 License
+
+This project is [MIT](LICENSE) licensed.
