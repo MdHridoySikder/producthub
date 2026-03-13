@@ -1,87 +1,116 @@
-# 🧴 ProductHub - Premium Perfume Collection
+# 🧴 ProductHub - Next.js 16 Premium Fragrance Platform
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-teal.svg?style=for-the-badge)](https://producthub-blue.vercel.app)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.2-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-7.1-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
 
-**ProductHub** is a sophisticated, full-stack e-commerce platform designed for fragrance enthusiasts. It offers a seamless experience for discovering, searching, and managing a premium collection of perfumes, complete with secure authentication and a modern, responsive user interface.
+**ProductHub** is a high-performance, full-stack e-commerce application for premium perfumes. Built with the latest **Next.js 16** features, it demonstrates advanced authentication patterns, edge-level route protection using the new **Proxy convention**, and a secure CRUD API integrated with MongoDB.
 
 ---
 
 ## 🚀 Live Demo
 
-Experience the application live at: **[producthub-blue.vercel.app](https://producthub-blue.vercel.app)**
+Check out the live deployment on Vercel:  
+**[https://producthub-blue.vercel.app](https://producthub-blue.vercel.app)**
 
 ---
 
 ## ✨ Features
 
-- 🛡️ **Secure Authentication**: Full login and registration system powered by **NextAuth.js**.
-- 🔒 **Private Route Protection**: Robust edge routing (Next.js Proxy) ensuring secure access to dashboards and management pages.
-- 🧴 **Premium Catalog**: Elegant display of fragrances with real-time search and detailed views.
-- 🎨 **Modern UI/UX**: Crafted with **Tailwind CSS 4** and **DaisyUI** for a premium, glassmorphic aesthetic.
-- 📊 **Product Management**: Intuitive interface for adding and managing product listings.
-- 📱 **Fully Responsive**: Optimized for a flawless experience across all devices (mobile, tablet, desktop).
-- 💬 **Interactive Elements**: Dynamic testimonials, blogs, and contact sections with smooth animations.
-- 🔔 **Toast Notifications**: Real-time feedback using `react-hot-toast` and `sweetalert2`.
+- 👤 **Advanced Authentication**: Secure login and registration using **NextAuth.js** with JWT strategy.
+- 🛡️ **Network Boundary Protection**: Uses the **Next.js 16 Proxy** (`src/proxy.js`) for edge-runtime route guarding.
+- 🧴 **Dynamic Product Catalog**: Real-time search, filtering, and categorization of premium scents.
+- 🔒 **Secured Private Pages**: Protected dashboards for profile management and product administration.
+- 📡 **RESTful API**: Secure backend endpoints for products and reviews with server-side session validation.
+- 🎨 **Premium Aesthetics**: Glassmorphic UI design powered by **Tailwind CSS 4** and **DaisyUI**.
+- 📱 **Mobile Optimized**: Fully responsive layout for seamless browsing on any device.
+- 🔔 **Real-time Feedback**: Interactive notifications via `react-hot-toast` and `sweetalert2`.
 
 ---
 
 ## 🛠️ Technologies Used
 
-### Core
-
-- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Proxy Convention)
-- **Language**: JavaScript (ES6+)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) & [DaisyUI](https://daisyui.com/)
-
-### Backend & Auth
-
-- **Authentication**: [NextAuth.js](https://next-auth.js.org/) (Credentials Provider)
-- **Database**: [MongoDB](https://www.mongodb.com/) (Native Driver)
-- **Security**: `bcryptjs` for password hashing
-
-### Libraries
-
-- **Icons**: Lucide React
-- **Notifications**: React Hot Toast, SweetAlert2, React Toastify
-- **Fonts**: Geist (Sans & Mono)
+- **Framework**: [Next.js 16.1.6](https://nextjs.org/) (App Router & Proxy)
+- **Authentication**: [NextAuth.js 4.24.13](https://next-auth.js.org/)
+- **Database**: [MongoDB 7.1.0](https://www.mongodb.com/)
+- **Styling**: [Tailwind CSS 4.2.1](https://tailwindcss.com/) & [DaisyUI 5.5.19](https://daisyui.com/)
+- **State/Hooks**: React 19 (Server & Client Components)
+- **Backend**: Edge-ready API Routes
 
 ---
 
-## 📸 Screenshots
+## 🗺️ Route Summary
 
-|                                       Landing Page                                        |                                     Product Catalog                                     |
-| :---------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
-| ![Landing Page Placeholder](https://via.placeholder.com/800x450?text=Landing+Page+Mockup) | ![Catalog Placeholder](https://via.placeholder.com/800x450?text=Product+Catalog+Mockup) |
+### Public Pages
+
+- `/`: Landing page featuring hero, features, and testimonials.
+- `/login`: Professional sign-in portal.
+- `/register`: User registration with validation.
+- `/blogs`: Exploration of fragrance trends.
+
+### Private Pages (Authenticated Only)
+
+- `/products`: Searchable fragrance catalog.
+- `/profile`: User account dashboard and details.
+- `/manageProducts`: Administrative interface for listed items.
+- `/addProduct`: Form for adding new premium fragrances.
+
+### API Routes
+
+- `GET /api/products`: Fetch all products (Secured).
+- `POST /api/products`: Create a new product entry (Secured).
+- `GET/POST /api/reviews`: Manage user feedback.
+- `GET/POST /api/auth/*`: NextAuth authentication endpoints.
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙️ Setup & Installation
 
-Follow these steps to run the project locally:
+Follow these steps to set up the project locally:
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/MdHridoySikder/producthub.git
 cd producthub
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Run Development Server
+### 4. Run the development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Navigate to `http://localhost:3000` to see the app.
+
+---
+
+## ☁️ Deployment (Vercel)
+
+1. Connect your GitHub repository to [Vercel](https://vercel.com).
+2. Configure the following environment variables in the Vercel Dashboard:
+   - `NEXTAUTH_URL`: `https://producthub-blue.vercel.app`
+   - `NEXTAUTH_SECRET`: (Generate a secure random string)
+   - `NEXT_MONGO_URI`: (Your production MongoDB string)
+3. Deploy!
+
+> [!TIP]
+> This project uses the **Next.js 16 Proxy** convention. Ensure `src/proxy.js` is present in your deployment for edge-level security to function correctly.
+
+---
+
+## 📸 Screenshots
+
+|                                        Desktop View                                        |                                       Mobile View                                        |
+| :----------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
+| ![Desktop Placeholder](https://via.placeholder.com/800x450?text=ProductHub+Desktop+Mockup) | ![Mobile Placeholder](https://via.placeholder.com/250x500?text=ProductHub+Mobile+Mockup) |
 
 ---
 
@@ -90,10 +119,10 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 **Md Hridoy Sikder**
 
 - GitHub: [@MdHridoySikder](https://github.com/MdHridoySikder)
-- Portfolio: [hridoysikder.com](https://hridoysikder.com) (Placeholder)
+- Email: [your-email@example.com](mailto:your-email@example.com)
 
 ---
 
 ## 📄 License
 
-This project is [MIT](LICENSE) licensed.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
