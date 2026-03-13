@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const NotFound = () => {
   return (
@@ -11,12 +12,12 @@ const NotFound = () => {
         Sorry, the page you are looking for does not exist or has been moved.
       </p>
 
-      <a
+      <Link
         href="/"
         className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
       >
         Back to Home
-      </a>
+      </Link>
     </div>
   );
 };
