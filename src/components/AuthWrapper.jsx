@@ -14,15 +14,25 @@ const AuthWrapper = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  /**
+   * Define public pages that do not require authentication.
+   * To add a new PROTECTED page, simply DO NOT add its path here.
+   * Any path not in this list will automatically be protected.
+   */
+  const publicPages = ["/", "/login", "/register", "/perfume-avatar"];
+
   useEffect(() => {
     // Only redirect if the session has finished loading and the user is unauthenticated
     if (status === "unauthenticated") {
-      // Avoid redirecting if we are already on the login or register page
-      if (pathname !== "/login" && pathname !== "/register") {
+      // Check if the current path is NOT a public page
+      const isPublicPage = publicPages.includes(pathname);
+
+      if (!isPublicPage) {
+        // Redirection logic: if not logged in and trying to access a protected page, send to login
         router.push("/login");
       }
     }
-  }, [status, router, pathname]);
+  }, [status, router, pathname, publicPages]);
 
   // Handle loading state with a premium spinner
   if (status === "loading") {
@@ -41,13 +51,14 @@ const AuthWrapper = ({ children }) => {
     );
   }
 
-  // If unauthenticated, show nothing (or we could show a brief "Redirecting..." message)
-  // while the useEffect handles the router.push
-  if (status === "unauthenticated") {
+  // If unauthenticated and on a protected page, show nothing while redirecting
+  if (status === "unauthenticated" && !publicPages.includes(pathname)) {
     return null;
   }
 
-  // If authenticated, render the protected content
+  // Render children for:
+  // 1. Authenticated users (access all pages)
+  // 2. Unauthenticated users on public pages
   return <>{children}</>;
 };
 

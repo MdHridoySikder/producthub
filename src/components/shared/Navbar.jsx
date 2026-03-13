@@ -81,38 +81,40 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
-              <div className="flex flex-col gap-1 ml-2 border-l-2 border-teal-100 pl-3 my-2">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                  Products
-                </span>
-                <li>
-                  <Link
-                    href="/products"
-                    onClick={closeDropdown}
-                    className="text-sm hover:text-teal-500 py-2"
-                  >
-                    All Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/addProduct"
-                    onClick={closeDropdown}
-                    className="text-sm hover:text-teal-500 py-2"
-                  >
-                    Add Product
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/manageProducts"
-                    onClick={closeDropdown}
-                    className="text-sm hover:text-teal-500 py-2"
-                  >
-                    Manage Perfumes
-                  </Link>
-                </li>
-              </div>
+              {status === "authenticated" && (
+                <div className="flex flex-col gap-1 ml-2 border-l-2 border-teal-100 pl-3 my-2">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Products
+                  </span>
+                  <li>
+                    <Link
+                      href="/products"
+                      onClick={closeDropdown}
+                      className="text-sm hover:text-teal-500 py-2"
+                    >
+                      All Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/addProduct"
+                      onClick={closeDropdown}
+                      className="text-sm hover:text-teal-500 py-2"
+                    >
+                      Add Product
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/manageProducts"
+                      onClick={closeDropdown}
+                      className="text-sm hover:text-teal-500 py-2"
+                    >
+                      Manage Perfumes
+                    </Link>
+                  </li>
+                </div>
+              )}
             </ul>
           </div>
 
@@ -159,65 +161,67 @@ const Navbar = () => {
               </li>
             ))}
 
-            {/* Products Dropdown - Click to Open Only */}
-            <li className="dropdown">
-              <div
-                tabIndex={0}
-                role="button"
-                className="relative group px-1 py-1 transition-colors hover:text-teal-600 cursor-pointer flex items-center gap-1 text-gray-700"
-              >
-                Products
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 opacity-70"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            {/* Products Dropdown - Visible only if logged in */}
+            {status === "authenticated" && (
+              <li className="dropdown">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="relative group px-1 py-1 transition-colors hover:text-teal-600 cursor-pointer flex items-center gap-1 text-gray-700"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[100] menu p-2 shadow-2xl bg-white rounded-2xl w-56 border border-gray-100 mt-2 flex flex-col gap-1"
-              >
-                <li className="menu-title px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-1">
-                  Management
-                </li>
-                <li>
-                  <Link
-                    href="/products"
-                    onClick={closeDropdown}
-                    className="hover:bg-teal-50 rounded-xl p-3"
+                  Products
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 opacity-70"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    All Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/addProduct"
-                    onClick={closeDropdown}
-                    className="hover:bg-teal-50 rounded-xl p-3"
-                  >
-                    Add Product
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/manageProducts"
-                    onClick={closeDropdown}
-                    className="hover:bg-teal-50 rounded-xl p-3"
-                  >
-                    Manage Perfumes
-                  </Link>
-                </li>
-              </ul>
-            </li>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[100] menu p-2 shadow-2xl bg-white rounded-2xl w-56 border border-gray-100 mt-2 flex flex-col gap-1"
+                >
+                  <li className="menu-title px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-1">
+                    Management
+                  </li>
+                  <li>
+                    <Link
+                      href="/products"
+                      onClick={closeDropdown}
+                      className="hover:bg-teal-50 rounded-xl p-3"
+                    >
+                      All Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/addProduct"
+                      onClick={closeDropdown}
+                      className="hover:bg-teal-50 rounded-xl p-3"
+                    >
+                      Add Product
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/manageProducts"
+                      onClick={closeDropdown}
+                      className="hover:bg-teal-50 rounded-xl p-3"
+                    >
+                      Manage Perfumes
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
           </ul>
         </div>
 
