@@ -12,5 +12,9 @@ export const config = {
     "/manageProducts/:path*",
     "/addProduct/:path*",
     "/profile/:path*",
+    "/products",
+    "/manageProducts",
+    "/addProduct",
+    "/profile",
   ],
 };
