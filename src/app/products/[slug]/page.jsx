@@ -11,7 +11,6 @@ export default function ProductDetails() {
 
   useEffect(() => {
     if (params.slug) {
-      // JSON থেকে fetch করা
       fetch("/data/products.json")
         .then((res) => res.json())
         .then((data) => {
