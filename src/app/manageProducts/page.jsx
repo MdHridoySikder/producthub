@@ -4,10 +4,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
-import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 
 const ManageProductsPage = () => {
+  const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,6 +50,18 @@ const ManageProductsPage = () => {
         if (res.ok) {
           setProducts(products.filter((p) => p._id !== id));
           toast.success("Product deleted successfully");
+        } else if (res.status === 401) {
+          Swal.fire({
+            title: "Login Required",
+            text: "You need to be logged in to delete products.",
+            icon: "warning",
+            confirmButtonColor: "#14b8a6",
+            confirmButtonText: "Go to Login",
+          }).then((alertResult) => {
+            if (alertResult.isConfirmed) {
+              router.push("/login?callbackUrl=/manageProducts");
+            }
+          });
         } else {
           toast.error("Failed to delete product");
         }

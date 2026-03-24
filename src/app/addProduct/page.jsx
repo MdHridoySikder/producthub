@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
-import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 
 const AddProductsPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -50,6 +51,18 @@ const AddProductsPage = () => {
           fullDesc: "",
           price: "",
           imageUrl: "",
+        });
+      } else if (res.status === 401) {
+        Swal.fire({
+          title: "Login Required",
+          text: "You need to be logged in to add a product.",
+          icon: "warning",
+          confirmButtonColor: "#14b8a6",
+          confirmButtonText: "Go to Login",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/login?callbackUrl=/addProduct");
+          }
         });
       } else {
         toast.error("Failed to add product");

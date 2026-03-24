@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 async function getProducts() {
   try {
-    const res = await fetch("/data/products.json");
+    const res = await fetch("/api/products");
     if (!res.ok) return [];
     const data = await res.json();
     return data;

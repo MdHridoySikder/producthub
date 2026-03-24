@@ -12,11 +12,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/products/:path*",
-    "/manageProducts/:path*",
-    "/addProduct/:path*",
-    "/profile/:path*",
-    "/api/products/:path*", // Protect API routes at the edge too
-  ],
+  matcher: [], // All routes public by default
 };
