@@ -4,6 +4,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 const uri = process.env.NEXT_MONGO_URI;
 const dbName = process.env.NEXT_MONGO_NAME;
 
+// Global cached client and db
 let cachedClient = global.mongoClient;
 let cachedDb = global.mongoDb;
 
@@ -22,7 +23,8 @@ if (!cachedClient) {
 
 export const dbConnect = async (collectionName) => {
   try {
-    if (!cachedClient.isConnected?.()) await cachedClient.connect(); // ensure connection
+    // Ensure first time connection
+    if (!cachedClient.isConnected) await cachedClient.connect();
     return cachedDb.collection(collectionName);
   } catch (e) {
     console.error("MongoDB connection error:", e);
