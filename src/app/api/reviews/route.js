@@ -1,42 +1,62 @@
 import { dbConnect } from "@/app/lib/dbConect";
 
-const reviewsData = [
-  {
-    id: 1,
-    title: "Perfume - Ocean Breeze",
-    shortDesc: "Fresh and long-lasting fragrance",
-    fullDesc:
-      "Ocean Breeze Perfume with 100ml spray bottle. Ideal for daily wear and special occasions.",
-    price: 45,
-    imageUrl:
-      "https://via.placeholder.com/200x200.png?text=Perfume+Ocean+Breeze",
-    dateAdded: "2026-03-12",
-  },
-  {
-    id: 2,
-    title: "Perfume - Midnight Rose",
-    shortDesc: "Elegant floral scent",
-    fullDesc:
-      "Midnight Rose Perfume with 75ml bottle. Captivating floral fragrance perfect for evening wear. Comes in a beautiful gift box.",
-    price: 60,
-    imageUrl:
-      "https://via.placeholder.com/200x200.png?text=Perfume+Midnight+Rose",
-    dateAdded: "2026-03-11",
-  },
-];
-
 export async function POST(request) {
-  const newReviews = await request.json();
-  console.log(newReviews);
-  newReviews.push({ ...newReviews, id: newReviews?.length + 1 });
-  return Response.json({
-    massage: "reviews add ",
-    review: newReviews,
-  });
+  try {
+    const data = await request.json();
+    const reviewCollection = await dbConnect("review");
+
+    // Assign an id automatically if needed
+    const lastReview = await reviewCollection
+      .find()
+      .sort({ id: -1 })
+      .limit(1)
+      .toArray();
+    const newId = lastReview.length > 0 ? lastReview[0].id + 1 : 1;
+
+    const newReview = {
+      ...data,
+      id: newId,
+      dateAdded: new Date().toISOString(),
+    };
+    const result = await reviewCollection.insertOne(newReview);
+
+    return new Response(
+      JSON.stringify({ message: "Review added", review: newReview }),
+      {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ message: "Error adding review", error }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
 }
 
 export async function GET(request) {
-  const reviewsRes = await dbConnect("review");
-  const reviews = await reviews.find({}).toArray();
-  return Response.json({ reviewsData, message: "reviews is working" });
+  try {
+    const reviewCollection = await dbConnect("review");
+    const reviews = await reviewCollection.find({}).toArray();
+
+    return new Response(
+      JSON.stringify({ reviews, message: "Reviews fetched successfully" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ message: "Error fetching reviews", error }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
 }

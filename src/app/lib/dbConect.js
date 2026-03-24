@@ -1,23 +1,31 @@
-// perfume-hub
-// GbPbvTr1OM1JLaZa
+// lib/dbConnect.js
+import { MongoClient, ServerApiVersion } from "mongodb";
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = process.env.NEXT_MONGO_URI;
 const dbName = process.env.NEXT_MONGO_NAME;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+
+let cachedClient = global.mongoClient;
+let cachedDb = global.mongoDb;
+
+if (!cachedClient) {
+  cachedClient = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+  cachedDb = cachedClient.db(dbName);
+  global.mongoClient = cachedClient;
+  global.mongoDb = cachedDb;
+}
 
 export const dbConnect = async (collectionName) => {
   try {
-    const db = client.db(dbName);
-    return db.collection(collectionName);
+    if (!cachedClient.isConnected?.()) await cachedClient.connect(); // ensure connection
+    return cachedDb.collection(collectionName);
   } catch (e) {
-    console.log(e);
+    console.error("MongoDB connection error:", e);
+    throw e;
   }
 };
