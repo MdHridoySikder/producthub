@@ -15,8 +15,6 @@ async function getProducts() {
   }
 }
 
-import AuthWrapper from "@/components/AuthWrapper";
-
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -39,8 +37,7 @@ const ProductsPage = () => {
   }, [search, products]);
 
   return (
-    <AuthWrapper>
-      <section className="max-w-7xl mx-auto px-6 py-20 min-h-screen">
+    <section className="max-w-7xl mx-auto px-6 py-20 min-h-screen">
         {/* Title */}
         <div className="text-center mb-14">
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-600">
@@ -127,7 +124,6 @@ const ProductsPage = () => {
           ))}
         </div>
       </section>
-    </AuthWrapper>
   );
 };
 

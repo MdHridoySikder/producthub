@@ -7,8 +7,6 @@ import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import AuthWrapper from "@/components/AuthWrapper";
-
 const ManageProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,8 +68,7 @@ const ManageProductsPage = () => {
   }
 
   return (
-    <AuthWrapper>
-      <div className="max-w-7xl mx-auto px-6 py-20">
+    <div className="max-w-7xl mx-auto px-6 py-20">
         {/* Title */}
         <div className="text-center mb-14">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500">
@@ -140,7 +137,6 @@ const ManageProductsPage = () => {
           </div>
         )}
       </div>
-    </AuthWrapper>
   );
 };
 

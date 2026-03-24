@@ -6,8 +6,6 @@ import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import AuthWrapper from "@/components/AuthWrapper";
-
 const AddProductsPage = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,8 +63,7 @@ const AddProductsPage = () => {
   };
 
   return (
-    <AuthWrapper>
-      <div className="min-h-screen bg-gray-50 py-24 px-4 pt-32">
+    <div className="min-h-screen bg-gray-50 py-24 px-4 pt-32">
         <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-gray-100">
           <div className="text-center mb-10">
             <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-cyan-500">
@@ -166,7 +163,6 @@ const AddProductsPage = () => {
           </form>
         </div>
       </div>
-    </AuthWrapper>
   );
 };
 

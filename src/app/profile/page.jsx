@@ -5,14 +5,11 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import AuthWrapper from "@/components/AuthWrapper";
-
 const ProfilePage = () => {
   const { data: session } = useSession();
 
   return (
-    <AuthWrapper>
-      <div className="min-h-screen bg-gray-50 py-24 px-6 pt-32">
+    <div className="min-h-screen bg-gray-50 py-24 px-6 pt-32">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white/80 backdrop-blur-xl rounded-[40px] shadow-2xl overflow-hidden border border-white/40">
             {/* Header/Cover Gradient */}
@@ -95,7 +92,6 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-    </AuthWrapper>
   );
 };
 
